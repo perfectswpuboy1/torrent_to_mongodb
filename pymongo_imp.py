@@ -16,7 +16,7 @@ import re
 def get_db():
     # 建立连接
     client = pymongo.MongoClient(host="127.0.0.1", port=27017)  #设置主机地址和端口，建立数据库链接。
-    db = client['softs']                                        #或者使用字典的方式获取链接。<<<<<<<<<<<<<<<<<<<<<<<<<<测试正常访问。
+    db = client['mongodb_bak']                                  #或者使用字典的方式获取链接。<<<<<<<<<<<<<<<<<<<<<<<<<<测试正常访问。
     #或者 db = client.example                                    #获取属性的方式
     return db  #返回获取到的数据库
 
@@ -29,7 +29,7 @@ def get_collection(db):
 
 def insert_one_doc(db,file_name0,filesize0,magnet0):
     '''
-    这个设计师针对存入torrentkitty的，爬取softs需要重新设计。
+    这个设计之前是针对存入torrentkitty的，爬取softs需要重新设计。
     '''
     # 插入一个document               #mongodb中每一条信息叫document
     coll = db['informations']       #选择这个集合

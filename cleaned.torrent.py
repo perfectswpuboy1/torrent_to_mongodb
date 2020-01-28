@@ -83,4 +83,5 @@ for keys2x in search_list:
                             print "截止目前，数据库中存放条目数量：%s个" % int(my_collection.count())
 
         except:
-            pass
+            print "Error!为知的错误！请检查！"
+            
