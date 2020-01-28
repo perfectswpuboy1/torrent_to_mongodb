@@ -15,7 +15,7 @@ for keys2x in search_list:
     url = 'https://www.torrentkitty.tv/search/'
 #    keys2x = raw_input("请输入搜索关键字：")
     keyword = urllib.quote(keys2x)  # 这是python2的语法
-    pages = 30
+    pages = 30  #设置搜索页数量
     file_name = '/Users/llm/PycharmProjects/' + keys2x + '.txt'
     ks = file_name
     for page in range(0, pages):
