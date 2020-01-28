@@ -16,17 +16,21 @@ import re
 def get_db():
     # 建立连接
     client = pymongo.MongoClient(host="127.0.0.1", port=27017)  #设置主机地址和端口，建立数据库链接。
-    db = client['torrentkitty']                                      #或者使用字典的方式获取链接。
+    db = client['softs']                                        #或者使用字典的方式获取链接。<<<<<<<<<<<<<<<<<<<<<<<<<<测试正常访问。
     #或者 db = client.example                                    #获取属性的方式
     return db  #返回获取到的数据库
 
 def get_collection(db):
     # 选择集合（mongo中collection和database都是延时创建的）
-    coll = db['informations']       #选择这个集合。多个document的合体，就是集合。
+    coll = db['informations']        #选择这个集合。多个document的合体，就是集合。就是多个数据小条。
     #print db.collection_names()     #打印集合名字
-    return coll                     #返回集合
+    return coll                      #返回集合
+
 
 def insert_one_doc(db,file_name0,filesize0,magnet0):
+    '''
+    这个设计师针对存入torrentkitty的，爬取softs需要重新设计。
+    '''
     # 插入一个document               #mongodb中每一条信息叫document
     coll = db['informations']       #选择这个集合
     #step1 获取magnet链接的keyid   21-61位为关键字串   [20:61]
@@ -61,15 +65,21 @@ def get_many_docs(db,find_key):
     #print "quyang: %s"%count
 
 
+
+
 if __name__ == '__main__':
     print "Please use it by import!"
     db = get_db()  # 建立链接
     my_collection = get_collection(db)  # 获取集合
+    
     post = {"author": "Mike", "text": "My first blog post!", "tags": ["mongodb", "python", "pymongo"],
             "date": datetime.datetime.utcnow()}  # 设置需要插入的内容，为一个字典。
-    # 插入记录
+    # 插入记录，一个post就是一条记录。
+    ##非常完美的记录！！！！！！！！！
     my_collection.insert(post)  # 插入上面的字典
-    print my_collection.find_one({"x": "10"})
+    
+
+    print my_collection.find_one({"author": "Mike"})
     information = {"name": "quyang", "age": "25"}     #字典，准备插入的字典。
     information_id = my_collection.insert(information)         #插入这一条字典，获取
     print information_id
