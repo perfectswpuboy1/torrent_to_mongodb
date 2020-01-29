@@ -58,8 +58,8 @@ def get_many_docs(db,find_key):
         print '\n-----------------------++++++++++++--------------------'
         item_list.append(item)
 
-    count = coll.count()
-    print "集合中所有数据 %s个" % int(count)
+    #counts = coll.count()
+    #print "集合中所有数据 %s个" % int(counts)
     print "查找到的数据有 %s 个" % len(item_list)
     return item_list
 
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     #print "Please use it by import!"
     
     db = get_db()  # 建立链接
-    get_many_docs(db,'LAFBD')
+    get_many_docs(db,'migd')
     
 
 
