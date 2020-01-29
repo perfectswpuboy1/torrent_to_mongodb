@@ -52,7 +52,7 @@ def get_many_docs(db,find_key):
     coll = db['informations']
     #ASCENDING = 1 升序;DESCENDING = -1降序;default is ASCENDING
     item_list=[]
-    for item in coll.find({"Vedio_name":re.compile(find_key)}).sort("Vedio_name", pymongo.DESCENDING):
+    for item in coll.find({"Vedio_name":re.compile(find_key,re.I)}).sort("Vedio_name", pymongo.DESCENDING):
         print item['Vedio_name']
         print item['Magnet_Link']
         print '\n-----------------------++++++++++++--------------------'
