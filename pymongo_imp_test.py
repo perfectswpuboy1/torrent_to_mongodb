@@ -53,11 +53,14 @@ def get_many_docs(db,find_key):
     #ASCENDING = 1 升序;DESCENDING = -1降序;default is ASCENDING
     item_list=[]
     for item in coll.find({"Vedio_name":re.compile(find_key)}).sort("Vedio_name", pymongo.DESCENDING):
-        print item
+        print item['Vedio_name']
+        print item['Magnet_Link']
+        print '\n-----------------------++++++++++++--------------------'
         item_list.append(item)
 
     count = coll.count()
     print "集合中所有数据 %s个" % int(count)
+    print "查找到的数据有 %s 个" % len(item_list)
     return item_list
 
     #条件查询
@@ -68,17 +71,23 @@ def get_many_docs(db,find_key):
 
 
 if __name__ == '__main__':
-    print "Please use it by import!"
-    db = get_db()  # 建立链接
-    my_collection = get_collection(db)  # 获取集合
+    #print "Please use it by import!"
     
-    post = {"author": "Mike", "text": "My first blog post!", "tags": ["mongodb", "python", "pymongo"],"date": datetime.datetime.utcnow()}  # 设置需要插入的内容，为一个字典。
-    # 插入记录，一个post就是一条记录。
-    ##非常完美的记录！！！！！！！！！
-    my_collection.insert(post)  # 插入上面的字典
+    db = get_db()  # 建立链接
+    get_many_docs(db,'LAFBD')
     
 
-    print my_collection.find_one({"author": "Mike"})
-    information = {"name": "quyang", "age": "25"}     #字典，准备插入的字典。
-    information_id = my_collection.insert(information)         #插入这一条字典，获取
-    print information_id
+
+    #my_collection = get_collection(db)  # 获取集合 这里是 informations
+    
+    #post = {"author": "Mike", "text": "My first blog post!", "tags": ["mongodb", "python", "pymongo"],"date": datetime.datetime.utcnow()}  # 设置需要插入的内容，为一个字典。
+        # 插入记录，一个post就是一条记录。
+        ##非常完美的记录！！！！！！！！！
+    #my_collection.insert(post)  # 插入上面的字典
+    
+
+    #print my_collection.find_one({"author": "Mike"})
+    
+    #information = {"name": "quyang", "age": "25"}     #字典，准备插入的字典。
+    #information_id = my_collection.insert(information)         #插入这一条字典，获取
+    #print information_id
