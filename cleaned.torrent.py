@@ -9,13 +9,13 @@ import requests
 from bs4 import BeautifulSoup
 import pymongo_imp
 
-search_list=['keyword1','keyword2']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
+search_list=['AIKA','SMBD']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
 for keys2x in search_list:
 
     url = 'https://www.torrentkitty.tv/search/'
 #    keys2x = raw_input("请输入搜索关键字：")
     keyword = urllib.quote(keys2x)  # 这是python2的语法
-    pages = 30  #设置搜索页数量
+    pages = 3  #设置搜索页数量
     file_name = '/Users/llm/PycharmProjects/' + keys2x + '.txt'
     ks = file_name
     for page in range(0, pages):
@@ -73,7 +73,7 @@ for keys2x in search_list:
                     #    p.write("%s \n \n" % detail_mag)  ##!!encode here to utf-8 to avoid encoding
 
                     #获取了磁力链接之后开始存入数据库。
-                            print "开始进行mongodb数据库操作:"
+                            print "-----------开始进行mongodb数据库操作:------------"
                     #存入数据库
                             db=pymongo_imp.get_db()
                             my_collection = pymongo_imp.get_collection(db)
@@ -83,5 +83,5 @@ for keys2x in search_list:
                             print "截止目前，数据库中存放条目数量：%s个" % int(my_collection.count())
 
         except:
-            print "Error!为知的错误！请检查！"
+            print "Error!未知的错误！请检查！"
             
