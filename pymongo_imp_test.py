@@ -76,6 +76,7 @@ if __name__ == '__main__':
     db = get_db()  # 建立链接
     get_many_docs(db,'snis')
     
+    
 
 
     #my_collection = get_collection(db)  # 获取集合 这里是 informations
