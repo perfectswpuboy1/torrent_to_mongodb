@@ -39,9 +39,7 @@ def get_collection(db):
 
 
 def insert_one_doc(db,file_name0,filesize0,magnet0):
-    '''
-    这个设计之前是针对存入torrentkitty的，爬取softs需要重新设计。
-    '''
+
     # 插入一个document               #mongodb中每一条信息叫document
     coll = db['informations']       #选择这个集合
 
@@ -53,7 +51,7 @@ def insert_one_doc(db,file_name0,filesize0,magnet0):
         print ("数据库中没有该文件。Will Add to the database!")
         information = {"Vedio_name": file_name0, "File_size": filesize0, "Magnet_Link": magnet0,
                        "Save_Time": datetime.datetime.utcnow(), "Vedio_KeyID": keywords0}  # 字典，准备插入的字典。
-        information_id = coll.insert(information)  # 插入这一条字典，获取
+        information_id = coll.insert_one(information)  # 插入这一条字典，获取
         print (information_id)
     else:
         print ("数据库已经有该文件。忽略!")
@@ -143,7 +141,33 @@ for keys2x in search_list:
                         #print ("nice")
                         FHD_flag=detail_name1.find('FHD')
                         THZ_flag=detail_name1.find('Thz.la')
-                    
+                    if FHD_flag != -1 or THZ_flag !=-1:
+                        if movie_li.find('a',attrs={'rel':'magnet'}) is None:
+                            pass
+                        else:
+                            detail_name=movie_li.find('a',attrs={'rel':'magnet'})['title']
+                            detail_mag=movie_li.find('a', attrs={'rel': 'magnet'})['href']
+                            print (detail_name)
+                            #print (detail_mag)
+                            magnet_info="-----------开始进行mongodb数据库操作:------------"
+                            print (magnet_info)
+
+                            db=get_db()
+                            my_collection= get_collection(db)
+                            insert_one_doc(db,detail_name,detail,detail_mag)
+
+                            db_count_info="截止目前，数据库中存放条目数量：%s个" % int(my_collection.estimated_document_count())
+
+                            print(db_count_info)
+
+
+
+
+
+
+
+
+
 
 
 
