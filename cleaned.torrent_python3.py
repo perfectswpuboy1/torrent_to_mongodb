@@ -98,7 +98,6 @@ def get_many_docs(db,find_key):
 
 
 
-#print(response.read().decode('utf-8'))      #获取请求的返回结果。
 
 
 #-----------------------++++++++++++--------------------
@@ -122,8 +121,8 @@ for keys2x in search_list:
 
         request = urllib.request.Request( url=site, headers=headers )  # Request是一个完整的请求。添加表头信息。
         try:
-            response = urllib.request.urlopen( request )  # 正式发起请求
-            html=response.read().decode('utf-8')
+            response = urllib.request.urlopen( request )  # 正式发起请求。
+            html=response.read().decode('utf-8')          # 读取返回结果。
             resp_flag=1
         except urllib.error.HTTPError as e:
             print ( 'code: ' + e.code + '\n' )
