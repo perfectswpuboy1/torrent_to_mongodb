@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a2b2b837-a50e-49e2-9cf1-74634fa836b6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pymongo_imp_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/pymongo_imp_test.py" afterDir="false" />
-    </list>
+    <list default="true" id="a2b2b837-a50e-49e2-9cf1-74634fa836b6" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +44,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -70,12 +68,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1580459557806</updated>
-      <workItem from="1580459559146" duration="238000" />
+      <workItem from="1580459559146" duration="379000" />
     </task>
+    <task id="LOCAL-00001" summary="This is modified by me">
+      <created>1580459897538</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1580459897538</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="238000" />
+    <option name="totallyTimeSpent" value="379000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="721" extended-state="0" />
@@ -106,5 +112,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="This is modified by me" />
+    <option name="LAST_COMMIT_MESSAGE" value="This is modified by me" />
   </component>
 </project>
