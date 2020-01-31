@@ -34,8 +34,9 @@ os.environ['http_proxy'] = 'http://127.0.0.1:1087'
 os.environ['https_proxy'] = 'https://127.0.0.1:1087'
 
 
-search_list=['明日花','中文字幕','KIRARI','SSNI']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
-pages=3
+search_list3=['明日花','中文字幕','MIRD','MIDD','大桥未久','成濑心美','KIRARI','SSNI','SNIS','AMORZ','麻生香月','JUFD','市来美保']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
+search_list=['HyperIdea','麻生香月','JUFD','市来美保']
+pages=10
 
 url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
 
