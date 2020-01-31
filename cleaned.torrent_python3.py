@@ -128,7 +128,26 @@ for keys2x in search_list:
 
         if resp_flag==1:
             soup=BeautifulSoup(html,"lxml")
-            print ("ok")
+            movie_list_soup=soup.find('table',attrs={'id':'archiveResult'})
+            movie_name_list=[]
+            search_flag=0
+            for movie_li in movie_list_soup.find_all('tr'):
+                search_flag += 1
+                if search_flag > 1:
+                    detail = movie_li.find('td',attrs={'class':'size'}).getText()
+                    #print (detail)     #文件大小
+                    if movie_li.find('a',attrs={'rel':'magnet'}) is None:
+                        pass
+                    else:
+                        detail_name1=movie_li.find('a',attrs={'rel':'magnet'})['title']
+                        #print ("nice")
+                        FHD_flag=detail_name1.find('FHD')
+                        THZ_flag=detail_name1.find('Thz.la')
+                    
+
+
+
+
 
 
 
