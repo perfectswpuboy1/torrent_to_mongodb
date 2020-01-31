@@ -16,6 +16,9 @@ import os
 import pymongo             #导入pymongo模块         。
 import datetime            #导入时间模块
 import re
+import urllib.error
+from bs4 import BeautifulSoup
+
 ssl._create_default_https_context = ssl._create_unverified_context #关闭https协议验证证书
 
 os.environ['http_proxy'] = 'http://127.0.0.1:1087'
@@ -86,17 +89,61 @@ def get_many_docs(db,find_key):
 #    get_many_docs( db, 'snis' )
 
 
-url1='https://www.torrentkitty.tv/search/AIKI/1' #error for python2,but ok for pyton3
+
+#print(response.read().decode('utf-8'))      #获取请求的返回结果。
+
+
+#-----------------------++++++++++++--------------------
+
+search_list=['AIKA','SMBD']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
+pages=1
+
+url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 }
-request = urllib.request.Request(url=url1, headers=headers)  #这是一个完整的请求。添加表头信息。
 
-response = urllib.request.urlopen(request)  #正式发起请求
+resp_flag=0
+for keys2x in search_list:
+    for page in range(pages):
+        page_str="当前页码：%s" %str(page+1) #简单处理，使得抓取页面跟pages相等。
+        print (page_str)
+        keyword=keys2x
+        print (keyword)
+
+        site=url + keyword + '/' + str(page+1)#简单处理，使得抓取页面跟pages相等。
+        print (site)
 
 
-print(response.read().decode('utf-8'))      #获取请求的返回结果。
+        request = urllib.request.Request( url=site, headers=headers )  # Request是一个完整的请求。添加表头信息。
+        try:
+            response = urllib.request.urlopen( request )  # 正式发起请求
+            html=response.read().decode('utf-8')
+            resp_flag=1
+        except urllib.error.HTTPError as e:
+            print ( 'code: ' + e.code + '\n' )
+            print ( 'reason: ' + e.reason + '\n' )
+            print ( 'headers: ' + e.headers + '\n' )
+
+        if resp_flag==1:
+            soup=BeautifulSoup(html,"lxml")
+            print ("ok")
+
+
+
+            pass
+
+
+
+
+
+
+
+
+
+
+
 
 
 
