@@ -24,6 +24,14 @@ ssl._create_default_https_context = ssl._create_unverified_context #关闭https�
 os.environ['http_proxy'] = 'http://127.0.0.1:1087'
 os.environ['https_proxy'] = 'https://127.0.0.1:1087'
 
+
+search_list=['KIRARI','SSNI']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
+pages=3
+
+url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
+
+
+
 def get_db():
     # 建立连接
     client = pymongo.MongoClient(host="127.0.0.1", port=27017)  #设置主机地址和端口，建立数据库链接。
@@ -47,7 +55,9 @@ def insert_one_doc(db,file_name0,filesize0,magnet0):
 
     keywords0=magnet0[20:60]
     #step2 查找keywords0是否重复。
-    if coll.find_one({"Vedio_KeyID": keywords0}) == None:
+    mag_link_flag=coll.find_one({"Magnet_Link": magnet0})
+
+    if coll.find_one({"Vedio_KeyID": keywords0}) == None and mag_link_flag==None:
         print ("数据库中没有该文件。Will Add to the database!")
         information = {"Vedio_name": file_name0, "File_size": filesize0, "Magnet_Link": magnet0,
                        "Save_Time": datetime.datetime.utcnow(), "Vedio_KeyID": keywords0}  # 字典，准备插入的字典。
@@ -93,10 +103,6 @@ def get_many_docs(db,find_key):
 
 #-----------------------++++++++++++--------------------
 
-search_list=['AIKA','SMBD']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
-pages=1
-
-url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
