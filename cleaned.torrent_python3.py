@@ -2,67 +2,101 @@
 # For python3 is ok for torrentkitty
 
 '''
-For python2 test.因为pyopenssl是老版本，且非常不好升级，使出了浑身解数也无济于事，所以现在用python3将之前的代码重写一遍。
+For python3 test.因为python2的pyopenssl是老版本，且非常不好升级，使出了浑身解数也无济于事，所以现在用python3将之前的代码重写一遍。
 '''
-
-
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context #关闭https协议验证证书
-
-import os
-os.environ['http_proxy'] = 'http://127.0.0.1:1087'
-os.environ['https_proxy'] = 'https://127.0.0.1:1087'
-
-
-
-
-
-#proxies = {"http": "127.0.0.1:1087", "https": "127.0.0.1:1087"}
-
-#header={'User-Agent','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11'}
-
-
-url1='https://www.torrentkitty.tv/search/AIKI/1' #error for python2,but ok for pyton3
-
-
-
-#m = requests.get(url,proxies=proxies)
-
-#m = requests.get(url) #如果没有代理，将无法访问。
-
-#print( m.content )  # youtube is ok,But torrentkitty is not ok!
-
-'''
-Python3 urllib学习
-'''
-
-import urllib.request
-
-
-#url = "http://tieba.baidu.com"
-
-#response = urllib.request.urlopen(url,timeout=5)  #不足以构成一个完整的请求。
-#html = response.read()         # 获取到页面的源代码
-#print(html.decode('utf-8'))    # 转化为 utf-8 编码
-
-
-#url = "http://tieba.baidu.com/"
-
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-}
-request = urllib.request.Request(url=url1, headers=headers)  #这是一个完整的请求。
 '''
 使用 Request 伪装成浏览器发起 HTTP 请求。如果不设置 headers 中的 User-Agent，默认的User-Agent是Python-urllib/3.5。
 可能一些网站会将该请求拦截，所以需要伪装一下。
 
 '''
 
+import urllib.request
+import ssl
+import os
+import pymongo             #导入pymongo模块         。
+import datetime            #导入时间模块
+import re
+ssl._create_default_https_context = ssl._create_unverified_context #关闭https协议验证证书
 
-response = urllib.request.urlopen(request)
+os.environ['http_proxy'] = 'http://127.0.0.1:1087'
+os.environ['https_proxy'] = 'https://127.0.0.1:1087'
+
+def get_db():
+    # 建立连接
+    client = pymongo.MongoClient(host="127.0.0.1", port=27017)  #设置主机地址和端口，建立数据库链接。
+    db = client['mongodb_bak']                                  #或者使用字典的方式获取链接。
+    #或者 db = client.example                                    #获取属性的方式
+    return db  #返回获取到的数据库
+
+def get_collection(db):
+    # 选择集合（mongo中collection和database都是延时创建的）
+    coll = db['informations']        #选择这个集合。多个document的合体，就是集合。就是多个数据小条。
+    #print db.collection_names()     #打印集合名字
+    return coll                      #返回集合
 
 
-print(response.read().decode('utf-8'))
+def insert_one_doc(db,file_name0,filesize0,magnet0):
+    '''
+    这个设计之前是针对存入torrentkitty的，爬取softs需要重新设计。
+    '''
+    # 插入一个document               #mongodb中每一条信息叫document
+    coll = db['informations']       #选择这个集合
+
+    #step1 获取magnet链接的keyid   21-61位为关键字串   [20:61]
+
+    keywords0=magnet0[20:60]
+    #step2 查找keywords0是否重复。
+    if coll.find_one({"Vedio_KeyID": keywords0}) == None:
+        print ("数据库中没有该文件。Will Add to the database!")
+        information = {"Vedio_name": file_name0, "File_size": filesize0, "Magnet_Link": magnet0,
+                       "Save_Time": datetime.datetime.utcnow(), "Vedio_KeyID": keywords0}  # 字典，准备插入的字典。
+        information_id = coll.insert(information)  # 插入这一条字典，获取
+        print (information_id)
+    else:
+        print ("数据库已经有该文件。忽略!")
+        pass
+        #print "else"
+
+def get_many_docs(db,find_key):
+    # mongo中提供了过滤查找的方法，可以通过各种条件筛选来获取数据集，还可以对数据进行计数，排序等处理
+    coll = db['informations']
+    #ASCENDING = 1 升序;DESCENDING = -1降序;default is ASCENDING
+
+    item_list=[]
+
+    for item in coll.find({"Vedio_name":re.compile(find_key,re.I)}).sort("Vedio_name", pymongo.DESCENDING):
+        print (item['Vedio_name'])
+        print (item['Magnet_Link'])
+        print ('\n-----------------------++++++++++++--------------------')
+
+        item_list.append(item)
+
+    #count = coll.count()
+
+
+    find_strs = "查找到的数据有 %s 个" % len( item_list )
+    print (find_strs)
+    return item_list
+
+
+#if __name__ == '__main__':
+    # print "Please use it by import!"
+
+#    db = get_db()  # 建立链接
+#    get_many_docs( db, 'snis' )
+
+
+url1='https://www.torrentkitty.tv/search/AIKI/1' #error for python2,but ok for pyton3
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+}
+request = urllib.request.Request(url=url1, headers=headers)  #这是一个完整的请求。添加表头信息。
+
+response = urllib.request.urlopen(request)  #正式发起请求
+
+
+print(response.read().decode('utf-8'))      #获取请求的返回结果。
 
 
 
