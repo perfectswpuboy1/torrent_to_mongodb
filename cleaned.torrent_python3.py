@@ -10,14 +10,23 @@ For python3 test.因为python2的pyopenssl是老版本，且非常不好升级�
 
 '''
 
-import urllib.request
+import urllib.request,urllib.parse
 import ssl
-import os
+import os,sys,importlib
 import pymongo             #导入pymongo模块         。
 import datetime            #导入时间模块
 import re
 import urllib.error
 from bs4 import BeautifulSoup
+
+importlib.reload(sys)
+#sys.setdefaultencoding('utf8')  #python3默认是unicode
+
+def check_contain_chinese(check_str):
+    for ch in check_str:
+        if u'\u4e00' <= ch <= u'\u9fff':
+        	return True
+    return False
 
 ssl._create_default_https_context = ssl._create_unverified_context #关闭https协议验证证书
 
@@ -25,7 +34,7 @@ os.environ['http_proxy'] = 'http://127.0.0.1:1087'
 os.environ['https_proxy'] = 'https://127.0.0.1:1087'
 
 
-search_list=['KIRARI','SSNI']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
+search_list=['明日花','中文字幕','KIRARI','SSNI']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
 pages=3
 
 url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
@@ -112,8 +121,15 @@ for keys2x in search_list:
     for page in range(pages):
         page_str="当前页码：%s" %str(page+1) #简单处理，使得抓取页面跟pages相等。
         print (page_str)
-        keyword=keys2x
-        print (keyword)
+
+        if check_contain_chinese(keys2x)==False:
+            keyword = keys2x
+        else:
+            keyword=urllib.parse.quote(keys2x)
+
+
+
+        print (keys2x)
 
         site=url + keyword + '/' + str(page+1)#简单处理，使得抓取页面跟pages相等。
         print (site)
@@ -121,7 +137,7 @@ for keys2x in search_list:
 
         request = urllib.request.Request( url=site, headers=headers )  # Request是一个完整的请求。添加表头信息。
         try:
-            response = urllib.request.urlopen( request )  # 正式发起请求。
+            response = urllib.request.urlopen( request ,timeout=50)  # 正式发起请求。
             html=response.read().decode('utf-8')          # 读取返回结果。
             resp_flag=1
         except urllib.error.HTTPError as e:
@@ -146,7 +162,8 @@ for keys2x in search_list:
                         #print ("nice")
                         FHD_flag=detail_name1.find('FHD')
                         THZ_flag=detail_name1.find('Thz.la')
-                    if FHD_flag != -1 or THZ_flag !=-1:
+                        ZHCN_flag=detail_name1.find('中文字幕')
+                    if FHD_flag != -1 or THZ_flag !=-1 or ZHCN_flag != -1:
                         if movie_li.find('a',attrs={'rel':'magnet'}) is None:
                             pass
                         else:
