@@ -74,7 +74,7 @@ if __name__ == '__main__':
     #print "Please use it by import!"
     
     db = get_db()  # 建立链接
-    get_many_docs(db,'snis')
+    get_many_docs(db,'中文字幕')
     
     
 

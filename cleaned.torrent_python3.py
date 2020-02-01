@@ -34,9 +34,8 @@ os.environ['http_proxy'] = 'http://127.0.0.1:1087'
 os.environ['https_proxy'] = 'https://127.0.0.1:1087'
 
 
-search_list3=['明日花','中文字幕','MIRD','MIDD','大桥未久','成濑心美','KIRARI','SSNI','SNIS','AMORZ','麻生香月','JUFD','市来美保']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
-search_list=['HyperIdea','麻生香月','JUFD','市来美保']
-pages=10
+search_list=['明日花','中文字幕']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
+pages=20
 
 url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
 
@@ -67,11 +66,11 @@ def insert_one_doc(db,file_name0,filesize0,magnet0):
     #step2 查找keywords0是否重复。
     mag_link_flag=coll.find_one({"Magnet_Link": magnet0})
 
-    if coll.find_one({"Vedio_KeyID": keywords0}) == None and mag_link_flag==None:
+    if coll.find_one({"Vedio_KeyID": keywords0}) == None and mag_link_flag==None:  #如果KeyID和磁力链接都不存在于数据库，那么就插入数据库。
         print ("数据库中没有该文件。Will Add to the database!")
         information = {"Vedio_name": file_name0, "File_size": filesize0, "Magnet_Link": magnet0,
                        "Save_Time": datetime.datetime.utcnow(), "Vedio_KeyID": keywords0}  # 字典，准备插入的字典。
-        information_id = coll.insert_one(information)  # 插入这一条字典，获取
+        information_id = coll.insert_one(information)  # 插入这一条字典到数据库，这是新版本mongodb的推荐用法。
         print (information_id)
     else:
         print ("数据库已经有该文件。忽略!")
