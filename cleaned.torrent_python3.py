@@ -15,14 +15,14 @@ import ssl
 import os,sys,importlib
 import pymongo             #导入pymongo模块         。
 import datetime            #导入时间模块
-import re
+import re                  #导入正则表达式模块。
 import urllib.error
 from bs4 import BeautifulSoup
 
 importlib.reload(sys)
 #sys.setdefaultencoding('utf8')  #python3默认是unicode
 
-def check_contain_chinese(check_str):
+def check_contain_chinese(check_str):   #检测是否为中文字符。
     for ch in check_str:
         if u'\u4e00' <= ch <= u'\u9fff':
         	return True
@@ -34,8 +34,8 @@ os.environ['http_proxy'] = 'http://127.0.0.1:1087'
 os.environ['https_proxy'] = 'https://127.0.0.1:1087'
 
 
-search_list=['明日花','中文字幕']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
-pages=20
+search_list=['高晓松','腾云驾雾']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
+pages=3
 
 url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
 
