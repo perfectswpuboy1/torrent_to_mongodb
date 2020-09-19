@@ -34,8 +34,8 @@ os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 os.environ['https_proxy'] = 'https://127.0.0.1:7890'
 
 
-search_list=['SSNI']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。
-pages=10
+search_list=['SSNI']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。https://jav.guru/zh/
+pages=2
 
 url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
 
@@ -90,6 +90,7 @@ def get_many_docs(db,find_key):
 
     for item in coll.find({"Vedio_name":re.compile(find_key,re.I)}).sort("Vedio_name", pymongo.DESCENDING):
         print (item['Vedio_name'])
+        print (item['Save_Time'])
         print (item['Magnet_Link'])
         print ('\n-----------------------++++++++++++--------------------')
 
@@ -164,10 +165,11 @@ for keys2x in search_list:
                     else:
                         detail_name1=movie_li.find('a',attrs={'rel':'magnet'})['title']
                         #print ("nice")
-                        FHD_flag=detail_name1.find('FHD')
+                        FHD_flag=detail_name1.find('HD')
                         THZ_flag=detail_name1.find('Thz.la')
                         ZHCN_flag=detail_name1.find('中文字幕')
-                    if FHD_flag != -1 or THZ_flag !=-1 or ZHCN_flag != -1:
+                        NODRM_flag=detail_name1.find('NoDRM')
+                    if FHD_flag != -1 or THZ_flag !=-1 or ZHCN_flag != -1 or NODRM_flag!=-1:
                         if movie_li.find('a',attrs={'rel':'magnet'}) is None:
                             pass
                         else:
