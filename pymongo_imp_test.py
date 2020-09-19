@@ -37,13 +37,13 @@ def insert_one_doc(db,file_name0,filesize0,magnet0):
     keywords0=magnet0[20:60]
     #step2 查找keywords0是否重复。
     if coll.find_one({"Vedio_KeyID": keywords0}) == None:
-        print "数据库中没有该文件。Will Add to the database!"
+        print ("数据库中没有该文件。Will Add to the database!")
         information = {"Vedio_name": file_name0, "File_size": filesize0, "Magnet_Link": magnet0,
                        "Save_Time": datetime.datetime.utcnow(), "Vedio_KeyID": keywords0}  # 字典，准备插入的字典。
         information_id = coll.insert(information)  # 插入这一条字典，获取
-        print information_id
+        print (information_id)
     else:
-        print "数据库已经有该文件。忽略!"
+        print ("数据库已经有该文件。忽略!")
         pass
         #print "else"
 
@@ -53,14 +53,14 @@ def get_many_docs(db,find_key):
     #ASCENDING = 1 升序;DESCENDING = -1降序;default is ASCENDING
     item_list=[]
     for item in coll.find({"Vedio_name":re.compile(find_key,re.I)}).sort("Vedio_name", pymongo.DESCENDING):
-        print item['Vedio_name']
-        print item['Magnet_Link']
-        print '\n-----------------------++++++++++++--------------------'
+        print (item['Vedio_name'])
+        print (item['Magnet_Link'])
+        print ('\n-----------------------++++++++++++--------------------')
         item_list.append(item)
 
     #counts = coll.count()
     #print "集合中所有数据 %s个" % int(counts)
-    print "查找到的数据有 %s 个" % len(item_list)
+    print ("查找到的数据有 %s 个" % len(item_list))
     return item_list
 
     #条件查询
