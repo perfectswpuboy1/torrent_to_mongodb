@@ -34,7 +34,7 @@ os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 os.environ['https_proxy'] = 'https://127.0.0.1:7890'
 
 
-search_list=['SSNI']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。https://jav.guru/zh/
+search_list=['SOE-775']   #这里建立一个关键字列表，一次性把想要搜索的内容全部搜索一遍，解放你的双手和眼睛。https://jav.guru/zh/
 pages=2
 
 url='https://www.torrentkitty.tv/search/' #error for python2,but ok for pyton3
